@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router";
 import Homepage from "./pages/Homepage";
 import FootballPage from "./pages/Football";
 import MatchDetailsPage from "./pages/Football/matches/details/[matchId]";
-import TeamDetailsPage from "./pages/Football/teams/[teamId]";
+import FormulaOnePage from "./pages/FormulaOne";
 
 function App() {
   const { getStandings, getCurrentMatchday } = useFootballStore();
@@ -23,7 +23,7 @@ function App() {
           path="/football/matches/details/:matchId"
           element={<MatchDetailsPage />}
         />
-        <Route path="football/teams/:teamId" element={<TeamDetailsPage />} />
+        <Route path="/formula-one" element={<FormulaOnePage />} />
       </Routes>
     </main>
   );
