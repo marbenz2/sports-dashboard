@@ -6,6 +6,10 @@ import path from "path";
 
 import { connectDB } from "./lib/db.js";
 
+import standingsRoutes from "./routes/standings.route.js";
+import matchdayRoutes from "./routes/matchday.route.js";
+import matchesRoutes from "./routes/matches.route.js";
+
 dotenv.config();
 
 const PORT = process.env.PORT || 5001;
@@ -20,6 +24,10 @@ app.use(
     credentials: true,
   })
 );
+
+app.use("/api/standings", standingsRoutes);
+app.use("/api/matchday", matchdayRoutes);
+app.use("/api/matches", matchesRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
