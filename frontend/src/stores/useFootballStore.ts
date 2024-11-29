@@ -12,7 +12,7 @@ interface FootballStore {
   isChosenMatchLoading: boolean;
   getStandings: () => void;
   getCurrentMatchday: () => void;
-  getChosenMatch: (matchId: number) => void;
+  getChosenMatch: (matchId: string | undefined) => void;
 }
 
 export const useFootballStore = create<FootballStore>((set) => ({
@@ -23,6 +23,7 @@ export const useFootballStore = create<FootballStore>((set) => ({
   isCurrentMatchdayLoading: false,
   isChosenMatchLoading: false,
   getStandings: async () => {
+    set({ isStandingsLoading: true });
     try {
       const { data } = await axiosInstance.get<StandingsType>("/standings");
       set({ standings: data });
@@ -40,6 +41,7 @@ export const useFootballStore = create<FootballStore>((set) => ({
     }
   },
   getCurrentMatchday: async () => {
+    set({ isCurrentMatchdayLoading: true });
     try {
       const { data } = await axiosInstance.get<MatchdayType>("/matchday");
       set({ currentMatchday: data });
@@ -56,7 +58,11 @@ export const useFootballStore = create<FootballStore>((set) => ({
       set({ isCurrentMatchdayLoading: false });
     }
   },
-  getChosenMatch: async (matchId: number) => {
+  getChosenMatch: async (matchId: string | undefined) => {
+    if (!matchId) {
+      return;
+    }
+    set({ isChosenMatchLoading: true });
     try {
       const { data } = await axiosInstance.get<MatchType>(
         `/matches/${matchId}`

@@ -2,7 +2,11 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        "spin-back": "spin .2s linear 1 reverse",
+      },
+    },
   },
   plugins: [require("daisyui")],
   daisyui: {
