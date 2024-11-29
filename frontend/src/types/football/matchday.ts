@@ -1,4 +1,4 @@
-type Team = {
+export type Team = {
   teamId: number;
   teamName: string;
   shortName: string;
@@ -12,7 +12,7 @@ type Group = {
   groupID: number;
 };
 
-type Goal = {
+export type Goal = {
   goalID: number;
   scoreTeam1: number;
   scoreTeam2: number;

@@ -1,7 +1,22 @@
 import { useFootballStore } from "@/stores/useFootballStore";
+import { Loader } from "lucide-react";
+import { useNavigate } from "react-router";
 
 export default function Standings() {
-  const { standings } = useFootballStore();
+  const { standings, isStandingsLoading } = useFootballStore();
+  const navigate = useNavigate();
+
+  const handleRowClick = (matchID: number) => {
+    navigate(`/football/teams/${matchID}`);
+  };
+
+  if (isStandingsLoading) {
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <Loader className="size-6 animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="overflow-x-auto card w-full p-6 shadow-xl">
@@ -22,7 +37,11 @@ export default function Standings() {
         </thead>
         <tbody>
           {standings?.map((team, index) => (
-            <tr key={team.teamInfoId} className="hover">
+            <tr
+              key={team.teamInfoId}
+              className="hover cursor-pointer"
+              onClick={() => handleRowClick(team.teamInfoId)}
+            >
               <td className="text-accent">{index + 1}</td>
               <td className="flex gap-4 items-center">
                 <img

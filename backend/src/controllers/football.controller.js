@@ -13,9 +13,10 @@ export const getStandingsFromDB = async (req, res) => {
 };
 
 export const updateStandingsInDB = async (req, res) => {
+  const currentYear = new Date().getFullYear();
   try {
     const apiData = await axios.get(
-      `${process.env.FOOTBALL_API_URI}/getbltable/bl1/2024`
+      `${process.env.FOOTBALL_API_URI}/getbltable/bl1/${currentYear}`
     );
     await Standings.deleteMany();
     await Standings.insertMany(apiData.data);

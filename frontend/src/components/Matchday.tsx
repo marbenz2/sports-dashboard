@@ -1,8 +1,23 @@
 import { useFootballStore } from "@/stores/useFootballStore";
+import { Loader } from "lucide-react";
 import React from "react";
+import { useNavigate } from "react-router";
 
 export default function Matchday() {
-  const { currentMatchday } = useFootballStore();
+  const { currentMatchday, isCurrentMatchdayLoading } = useFootballStore();
+  const navigate = useNavigate();
+
+  const handleRowClick = (matchID: number) => {
+    navigate(`/football/matches/details/${matchID}`);
+  };
+
+  if (isCurrentMatchdayLoading) {
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <Loader className="size-6 animate-spin" />
+      </div>
+    );
+  }
 
   const matchesByDateAndTime = currentMatchday?.reduce((acc, match) => {
     const date = new Date(match.matchDateTime).toLocaleDateString("de-DE", {
@@ -24,8 +39,6 @@ export default function Matchday() {
     acc[date][time].push(match);
     return acc;
   }, {} as Record<string, Record<string, typeof currentMatchday>>);
-
-  console.log(matchesByDateAndTime);
 
   return (
     <div className="overflow-x-auto card w-full p-6 shadow-xl">
@@ -52,7 +65,11 @@ export default function Matchday() {
                       </td>
                     </tr>
                     {matches.map((match) => (
-                      <tr key={match.matchID} className="hover">
+                      <tr
+                        key={match.matchID}
+                        className="hover cursor-pointer"
+                        onClick={() => handleRowClick(match.matchID)}
+                      >
                         <td>{match.team1.teamName}</td>
                         <td>
                           <img
