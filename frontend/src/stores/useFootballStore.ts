@@ -68,6 +68,7 @@ export const useFootballStore = create<FootballStore>((set) => ({
         `/matches/${matchId}`
       );
       set({ chosenMatch: data });
+      console.log("Chosen Match: ", data);
     } catch (error) {
       const axiosError = error as AxiosError;
       const errorMessage =

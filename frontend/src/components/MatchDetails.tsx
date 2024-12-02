@@ -30,12 +30,26 @@ export default function MatchDetails({ match }: { match: MatchType | null }) {
 
   useEffect(() => {
     if (match) {
-      setGoalsTeam1(
-        match.goals.filter((goal) => goal.scoreTeam1 > goal.scoreTeam2)
+      const sortedGoals = [...match.goals].sort(
+        (a, b) => a.matchMinute - b.matchMinute
       );
-      setGoalsTeam2(
-        match.goals.filter((goal) => goal.scoreTeam2 > goal.scoreTeam1)
-      );
+
+      const team1Goals = sortedGoals.filter((goal, index) => {
+        const previousGoal = sortedGoals[index - 1];
+        const previousScoreTeam1 = previousGoal?.scoreTeam1 ?? 0;
+
+        return goal.scoreTeam1 > previousScoreTeam1;
+      });
+
+      const team2Goals = sortedGoals.filter((goal, index) => {
+        const previousGoal = sortedGoals[index - 1];
+        const previousScoreTeam2 = previousGoal?.scoreTeam2 ?? 0;
+
+        return goal.scoreTeam2 > previousScoreTeam2;
+      });
+
+      setGoalsTeam1(team1Goals);
+      setGoalsTeam2(team2Goals);
     }
   }, [match]);
 

@@ -2,9 +2,11 @@ import { useFootballStore } from "@/stores/useFootballStore";
 import { Loader } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router";
+import RefreshButton from "./RefreshButton";
 
 export default function Matchday() {
-  const { currentMatchday, isCurrentMatchdayLoading } = useFootballStore();
+  const { currentMatchday, isCurrentMatchdayLoading, getCurrentMatchday } =
+    useFootballStore();
   const navigate = useNavigate();
 
   const handleRowClick = (matchID: number) => {
@@ -42,9 +44,12 @@ export default function Matchday() {
 
   return (
     <div className="overflow-x-auto card w-full p-6 shadow-xl">
-      <h2 className="badge badge-lg badge-accent">
-        Spieltag {currentMatchday && currentMatchday[0].group.groupOrderID}
-      </h2>
+      <div className="flex w-full items-center justify-between gap-4">
+        <h2 className="badge badge-lg badge-accent">
+          Spieltag {currentMatchday && currentMatchday[0].group.groupOrderID}
+        </h2>
+        <RefreshButton route="/matchday/update" refresh={getCurrentMatchday} />
+      </div>
       <table className="table w-full">
         {Object.entries(matchesByDateAndTime ?? {}).map(
           ([date, matchesByTime]) => (
