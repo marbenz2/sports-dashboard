@@ -1,7 +1,17 @@
-import { Goal, MatchType, Team } from "@/types/football/matchday";
+import {
+  FootballGoal,
+  FootballMatchType,
+  FootballTeam,
+} from "@/types/football/matchday";
 import { useEffect, useState } from "react";
 
-function TeamDetails({ team, goals }: { team: Team; goals: Goal[] }) {
+function TeamDetails({
+  team,
+  goals,
+}: {
+  team: FootballTeam;
+  goals: FootballGoal[];
+}) {
   return (
     <div className="flex flex-col gap-6 w-full items-center">
       <div className="flex flex-col items-center">
@@ -24,9 +34,13 @@ function TeamDetails({ team, goals }: { team: Team; goals: Goal[] }) {
   );
 }
 
-export default function MatchDetails({ match }: { match: MatchType | null }) {
-  const [goalsTeam1, setGoalsTeam1] = useState<Goal[]>([]);
-  const [goalsTeam2, setGoalsTeam2] = useState<Goal[]>([]);
+export default function MatchDetails({
+  match,
+}: {
+  match: FootballMatchType | null;
+}) {
+  const [goalsTeam1, setGoalsTeam1] = useState<FootballGoal[]>([]);
+  const [goalsTeam2, setGoalsTeam2] = useState<FootballGoal[]>([]);
 
   useEffect(() => {
     if (match) {

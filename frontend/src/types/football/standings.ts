@@ -1,4 +1,4 @@
-export type StandingsType = {
+export type FootballStandingsType = {
   teamInfoId: number;
   teamName: string;
   shortName: string;

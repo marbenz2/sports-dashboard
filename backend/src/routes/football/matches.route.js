@@ -1,5 +1,5 @@
 import express from "express";
-import { getMatchesFromAPI } from "../controllers/football.controller.js";
+import { getMatchesFromAPI } from "../../controllers/football.controller.js";
 
 const router = express.Router();
 

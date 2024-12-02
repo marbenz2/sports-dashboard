@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const standingsSchema = new mongoose.Schema({
+const footballStandingsSchema = new mongoose.Schema({
   teamInfoId: { type: Number, required: true },
   teamName: { type: String, required: true },
   shortName: { type: String, required: true },
@@ -15,6 +15,9 @@ const standingsSchema = new mongoose.Schema({
   goalDiff: { type: Number, required: true },
 });
 
-const Standings = mongoose.model("Standings", standingsSchema);
+const FootballStandings = mongoose.model(
+  "FootballStandings",
+  footballStandingsSchema
+);
 
-export default Standings;
+export default FootballStandings;
