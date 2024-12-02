@@ -1,9 +1,10 @@
 import { useFootballStore } from "@/stores/useFootballStore";
 import { Loader } from "lucide-react";
 import { useNavigate } from "react-router";
+import RefreshButton from "./RefreshButton";
 
 export default function Standings() {
-  const { standings, isStandingsLoading } = useFootballStore();
+  const { standings, isStandingsLoading, getStandings } = useFootballStore();
   const navigate = useNavigate();
 
   const handleRowClick = (matchID: number) => {
@@ -20,7 +21,10 @@ export default function Standings() {
 
   return (
     <div className="overflow-x-auto card w-full p-6 shadow-xl">
-      <h2 className="badge badge-lg badge-accent">Tabelle</h2>
+      <div className="flex w-full items-center justify-between gap-4">
+        <h2 className="badge badge-lg badge-accent">Tabelle</h2>
+        <RefreshButton route="/standings/update" refresh={getStandings} />
+      </div>
       <table className="table w-full">
         <thead>
           <tr>

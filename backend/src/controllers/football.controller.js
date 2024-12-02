@@ -12,7 +12,7 @@ export const getStandingsFromDB = async (req, res) => {
   }
 };
 
-export const updateStandingsInDB = async (req, res) => {
+export const updateStandingsInDB = async () => {
   const currentYear = new Date().getFullYear();
   try {
     const apiData = await axios.get(
@@ -20,9 +20,17 @@ export const updateStandingsInDB = async (req, res) => {
     );
     await Standings.deleteMany();
     await Standings.insertMany(apiData.data);
-    res.status(200).json({ message: "Data updated successfully" });
+    console.log("Standings Data updated successfully");
   } catch (error) {
     console.error("Error in updateStandingsInDB: ", error.message);
+  }
+};
+
+export const updateStandingsHandler = async (req, res) => {
+  try {
+    await updateStandingsInDB();
+    res.status(200).json({ message: "Standings Data updated successfully" });
+  } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
@@ -37,16 +45,24 @@ export const getCurrentMatchdayFromDB = async (req, res) => {
   }
 };
 
-export const updateCurrentMatchdayInDB = async (req, res) => {
+export const updateCurrentMatchdayInDB = async () => {
   try {
     const apiData = await axios.get(
       `${process.env.FOOTBALL_API_URI}/getmatchdata/bl1`
     );
     await Matchday.deleteMany();
     await Matchday.insertMany(apiData.data);
-    res.status(200).json({ message: "Data updated successfully" });
+    console.log("Matchday Data updated successfully");
   } catch (error) {
     console.error("Error in updateCurrentMatchdayInDB: ", error.message);
+  }
+};
+
+export const updateCurrentMatchdayHandler = async (req, res) => {
+  try {
+    await updateCurrentMatchdayInDB();
+    res.status(200).json({ message: "Matchday Data updated successfully" });
+  } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
