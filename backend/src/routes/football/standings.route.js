@@ -2,7 +2,7 @@ import express from "express";
 import {
   getStandingsFromDB,
   updateStandingsHandler,
-} from "../controllers/football.controller.js";
+} from "../../controllers/football.controller.js";
 
 const router = express.Router();
 

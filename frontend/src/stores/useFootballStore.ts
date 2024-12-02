@@ -1,32 +1,34 @@
 import { create } from "zustand";
 import { axiosInstance, AxiosError } from "@/lib/axios";
-import { StandingsType } from "@/types";
-import { MatchdayType, MatchType } from "@/types/football/matchday";
+import { FootballStandingsType } from "@/types";
+import { FootballMatchdayType, FootballMatchType } from "@/types";
 
 interface FootballStore {
-  standings: StandingsType | null;
-  currentMatchday: MatchdayType | null;
-  chosenMatch: MatchType | null;
-  isStandingsLoading: boolean;
-  isCurrentMatchdayLoading: boolean;
-  isChosenMatchLoading: boolean;
-  getStandings: () => void;
-  getCurrentMatchday: () => void;
-  getChosenMatch: (matchId: string | undefined) => void;
+  footballStandings: FootballStandingsType | null;
+  footballCurrentMatchday: FootballMatchdayType | null;
+  footballChosenMatch: FootballMatchType | null;
+  isFootballStandingsLoading: boolean;
+  isFootballCurrentMatchdayLoading: boolean;
+  isFootballChosenMatchLoading: boolean;
+  getFootballStandings: () => void;
+  getFootballCurrentMatchday: () => void;
+  getFootballChosenMatch: (matchId: string | undefined) => void;
 }
 
 export const useFootballStore = create<FootballStore>((set) => ({
-  standings: null,
-  currentMatchday: null,
-  chosenMatch: null,
-  isStandingsLoading: false,
-  isCurrentMatchdayLoading: false,
-  isChosenMatchLoading: false,
-  getStandings: async () => {
-    set({ isStandingsLoading: true });
+  footballStandings: null,
+  footballCurrentMatchday: null,
+  footballChosenMatch: null,
+  isFootballStandingsLoading: false,
+  isFootballCurrentMatchdayLoading: false,
+  isFootballChosenMatchLoading: false,
+  getFootballStandings: async () => {
+    set({ isFootballStandingsLoading: true });
     try {
-      const { data } = await axiosInstance.get<StandingsType>("/standings");
-      set({ standings: data });
+      const { data } = await axiosInstance.get<FootballStandingsType>(
+        "/football/standings"
+      );
+      set({ footballStandings: data });
     } catch (error) {
       const axiosError = error as AxiosError;
       const errorMessage =
@@ -37,14 +39,16 @@ export const useFootballStore = create<FootballStore>((set) => ({
           : "An error occurred";
       console.error(errorMessage);
     } finally {
-      set({ isStandingsLoading: false });
+      set({ isFootballStandingsLoading: false });
     }
   },
-  getCurrentMatchday: async () => {
-    set({ isCurrentMatchdayLoading: true });
+  getFootballCurrentMatchday: async () => {
+    set({ isFootballCurrentMatchdayLoading: true });
     try {
-      const { data } = await axiosInstance.get<MatchdayType>("/matchday");
-      set({ currentMatchday: data });
+      const { data } = await axiosInstance.get<FootballMatchdayType>(
+        "/football/matchday"
+      );
+      set({ footballCurrentMatchday: data });
     } catch (error) {
       const axiosError = error as AxiosError;
       const errorMessage =
@@ -55,20 +59,19 @@ export const useFootballStore = create<FootballStore>((set) => ({
           : "An error occurred";
       console.error(errorMessage);
     } finally {
-      set({ isCurrentMatchdayLoading: false });
+      set({ isFootballCurrentMatchdayLoading: false });
     }
   },
-  getChosenMatch: async (matchId: string | undefined) => {
+  getFootballChosenMatch: async (matchId: string | undefined) => {
     if (!matchId) {
       return;
     }
-    set({ isChosenMatchLoading: true });
+    set({ isFootballChosenMatchLoading: true });
     try {
-      const { data } = await axiosInstance.get<MatchType>(
-        `/matches/${matchId}`
+      const { data } = await axiosInstance.get<FootballMatchType>(
+        `/football/matches/${matchId}`
       );
-      set({ chosenMatch: data });
-      console.log("Chosen Match: ", data);
+      set({ footballChosenMatch: data });
     } catch (error) {
       const axiosError = error as AxiosError;
       const errorMessage =
@@ -79,7 +82,7 @@ export const useFootballStore = create<FootballStore>((set) => ({
           : "An error occurred";
       console.error(errorMessage);
     } finally {
-      set({ isChosenMatchLoading: false });
+      set({ isFootballChosenMatchLoading: false });
     }
   },
 }));

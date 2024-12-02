@@ -13,7 +13,7 @@ export default function Homepage() {
         <HomeCard
           image={"/images/formula1-car.svg"}
           title={"Formel 1"}
-          link={"/formula-one"}
+          link={"/formula1"}
         />
         <HomeCard
           image={"/images/biathlon.svg"}
