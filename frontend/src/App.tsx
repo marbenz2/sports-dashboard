@@ -5,6 +5,7 @@ import Homepage from "./pages/Homepage";
 import FootballPage from "./pages/Football";
 import MatchDetailsPage from "./pages/Football/matches/details/[matchId]";
 import FormulaOnePage from "./pages/FormulaOne";
+import BiathlonPage from "./pages/Biathlon";
 
 function App() {
   const { getStandings, getCurrentMatchday } = useFootballStore();
@@ -24,6 +25,7 @@ function App() {
           element={<MatchDetailsPage />}
         />
         <Route path="/formula-one" element={<FormulaOnePage />} />
+        <Route path="/biathlon" element={<BiathlonPage />} />
       </Routes>
     </main>
   );
