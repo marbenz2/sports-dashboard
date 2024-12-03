@@ -1,26 +1,17 @@
-import { useFootballMatchdayStore } from "@/stores/football/useFootballMatchdayStore";
+import { useFootballStore } from "@/stores/useFootballStore";
 import { Loader } from "lucide-react";
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router";
-import RefreshButton from "../RefreshButton";
 
-export default function CurrentMatchday() {
-  const {
-    footballCurrentMatchday,
-    isFootballMatchdayLoading,
-    getFootballMatchday,
-  } = useFootballMatchdayStore();
+export default function Matchday() {
+  const { currentMatchday, isCurrentMatchdayLoading } = useFootballStore();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    getFootballMatchday();
-  }, [getFootballMatchday]);
 
   const handleRowClick = (matchID: number) => {
     navigate(`/football/matches/details/${matchID}`);
   };
 
-  if (isFootballMatchdayLoading) {
+  if (isCurrentMatchdayLoading) {
     return (
       <div className="flex items-center justify-center w-full h-full">
         <Loader className="size-6 animate-spin" />
@@ -28,7 +19,7 @@ export default function CurrentMatchday() {
     );
   }
 
-  const matchesByDateAndTime = footballCurrentMatchday?.reduce((acc, match) => {
+  const matchesByDateAndTime = currentMatchday?.reduce((acc, match) => {
     const date = new Date(match.matchDateTime).toLocaleDateString("de-DE", {
       weekday: "long",
       year: "numeric",
@@ -47,23 +38,13 @@ export default function CurrentMatchday() {
     }
     acc[date][time].push(match);
     return acc;
-  }, {} as Record<string, Record<string, typeof footballCurrentMatchday>>);
+  }, {} as Record<string, Record<string, typeof currentMatchday>>);
 
   return (
     <div className="overflow-x-auto card w-full p-6 shadow-xl">
-      <div className="flex w-full items-center justify-between gap-4">
-        <div className="flex gap-4">
-          <h2 className="badge badge-lg badge-accent">Dieser Spieltag</h2>
-          <h3 className="badge badge-lg badge-accent">
-            {footballCurrentMatchday &&
-              footballCurrentMatchday[0].group.groupOrderID}
-          </h3>
-        </div>
-        <RefreshButton
-          route="/football/matchday/update"
-          refresh={getFootballMatchday}
-        />
-      </div>
+      <h2 className="badge badge-lg badge-accent">
+        Spieltag {currentMatchday && currentMatchday[0].group.groupOrderID}
+      </h2>
       <table className="table w-full">
         {Object.entries(matchesByDateAndTime ?? {}).map(
           ([date, matchesByTime]) => (

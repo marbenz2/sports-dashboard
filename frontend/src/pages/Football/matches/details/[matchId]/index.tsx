@@ -1,23 +1,20 @@
 import BackButton from "@/components/BackButton";
-import MatchDetails from "@/components/football/MatchDetails";
-import { useFootballMatchStore } from "@/stores/football/useFootballMatchStore";
+import MatchDetails from "@/components/MatchDetails";
+import { useFootballStore } from "@/stores/useFootballStore";
 import { Loader } from "lucide-react";
 import { useEffect } from "react";
 import { useParams } from "react-router";
 
 export default function MatchDetailsPage() {
   const matchId = useParams().matchId;
-  const {
-    footballChosenMatch,
-    getFootballChosenMatch,
-    isFootballChosenMatchLoading,
-  } = useFootballMatchStore();
+  const { chosenMatch, getChosenMatch, isChosenMatchLoading } =
+    useFootballStore();
 
   useEffect(() => {
-    getFootballChosenMatch(matchId);
-  }, [getFootballChosenMatch, matchId]);
+    getChosenMatch(matchId);
+  }, [getChosenMatch, matchId]);
 
-  if (isFootballChosenMatchLoading) {
+  if (isChosenMatchLoading) {
     return (
       <div className="flex items-center justify-center w-full h-full">
         <Loader className="size-6 animate-spin" />
@@ -28,7 +25,7 @@ export default function MatchDetailsPage() {
   return (
     <div className="flex flex-col w-full">
       <BackButton />
-      <MatchDetails match={footballChosenMatch} />
+      <MatchDetails match={chosenMatch} />
     </div>
   );
 }

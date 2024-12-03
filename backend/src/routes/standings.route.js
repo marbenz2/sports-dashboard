@@ -1,13 +1,13 @@
 import express from "express";
 import {
   getStandingsFromDB,
-  updateStandingsHandler,
-} from "../../controllers/football.controller.js";
+  updateStandingsInDB,
+} from "../controllers/football.controller.js";
 
 const router = express.Router();
 
 router.get("/", getStandingsFromDB);
 
-router.post("/update", updateStandingsHandler);
+router.post("/update", updateStandingsInDB);
 
 export default router;
