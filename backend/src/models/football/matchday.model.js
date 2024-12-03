@@ -1,7 +1,7 @@
 // matchday.model.js
 import mongoose from "mongoose";
 
-const teamSchema = new mongoose.Schema({
+const footballTeamSchema = new mongoose.Schema({
   teamId: { type: Number, required: true },
   teamName: { type: String, required: true },
   shortName: { type: String, required: true },
@@ -9,13 +9,13 @@ const teamSchema = new mongoose.Schema({
   teamGroupName: { type: String, default: null },
 });
 
-const groupSchema = new mongoose.Schema({
+const footballGroupSchema = new mongoose.Schema({
   groupName: { type: String, required: true },
   groupOrderID: { type: Number, required: true },
   groupID: { type: Number, required: true },
 });
 
-const goalSchema = new mongoose.Schema({
+const footballGoalSchema = new mongoose.Schema({
   goalID: { type: Number, required: true },
   scoreTeam1: { type: Number, required: true },
   scoreTeam2: { type: Number, required: true },
@@ -28,7 +28,7 @@ const goalSchema = new mongoose.Schema({
   comment: { type: String, default: null },
 });
 
-const matchResultSchema = new mongoose.Schema({
+const footballMatchResultSchema = new mongoose.Schema({
   resultID: { type: Number, required: true },
   resultName: { type: String, required: true },
   pointsTeam1: { type: Number, required: true },
@@ -38,7 +38,7 @@ const matchResultSchema = new mongoose.Schema({
   resultDescription: { type: String, required: true },
 });
 
-const matchSchema = new mongoose.Schema({
+const footballMatchSchema = new mongoose.Schema({
   matchID: { type: Number, required: true },
   matchDateTime: { type: Date, required: true },
   timeZoneID: { type: String, required: true },
@@ -47,17 +47,23 @@ const matchSchema = new mongoose.Schema({
   leagueSeason: { type: Number, required: true },
   leagueShortcut: { type: String, required: true },
   matchDateTimeUTC: { type: Date, required: true },
-  group: { type: groupSchema, required: true },
-  team1: { type: teamSchema, required: true },
-  team2: { type: teamSchema, required: true },
+  group: { type: footballGroupSchema, required: true },
+  team1: { type: footballTeamSchema, required: true },
+  team2: { type: footballTeamSchema, required: true },
   lastUpdateDateTime: { type: Date, required: true },
   matchIsFinished: { type: Boolean, required: true },
-  matchResults: { type: [matchResultSchema], required: true },
-  goals: { type: [goalSchema], required: true },
+  matchResults: { type: [footballMatchResultSchema], required: true },
+  goals: { type: [footballGoalSchema], required: true },
   location: { type: String, default: null },
   numberOfViewers: { type: Number, default: null },
 });
 
-const Matchday = mongoose.model("CurrentMatch", matchSchema);
+export const FootballMatchday = mongoose.model(
+  "CurrentFootballMatch",
+  footballMatchSchema
+);
 
-export default Matchday;
+export const FootballNextMatchday = mongoose.model(
+  "FootballNextMatchday",
+  footballMatchSchema
+);
