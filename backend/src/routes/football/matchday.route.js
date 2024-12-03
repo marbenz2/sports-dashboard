@@ -1,13 +1,13 @@
 import express from "express";
 import {
   getCurrentMatchdayFromDB,
-  updateCurrentMatchdayInDB,
-} from "../controllers/football.controller.js";
+  updateCurrentMatchdayHandler,
+} from "../../controllers/football.controller.js";
 
 const router = express.Router();
 
 router.get("/", getCurrentMatchdayFromDB);
 
-router.post("/update", updateCurrentMatchdayInDB);
+router.post("/update", updateCurrentMatchdayHandler);
 
 export default router;
