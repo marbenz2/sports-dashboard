@@ -1,10 +1,15 @@
-import { useFormula1Store } from "@/stores/useFormula1Store";
+import { useFormula1RacePreviousStore } from "@/stores/formula1/useFormula1RacePreviousStore";
 import { Loader } from "lucide-react";
 import RefreshButton from "../RefreshButton";
+import { useEffect } from "react";
 
 export default function PreviousRace() {
   const { f1PreviousRace, isF1PreviousRaceLoading, getF1PreviousRace } =
-    useFormula1Store();
+    useFormula1RacePreviousStore();
+
+  useEffect(() => {
+    getF1PreviousRace();
+  }, [getF1PreviousRace]);
 
   if (isF1PreviousRaceLoading) {
     return (
@@ -38,7 +43,7 @@ export default function PreviousRace() {
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr className="hover cursor-default">
               <td>
                 {new Date(previousRace?.date ?? "").toLocaleDateString(
                   "de-DE",
@@ -72,7 +77,7 @@ export default function PreviousRace() {
       </div>
       <div className="flex flex-col w-full">
         <div className="flex w-full items-center justify-between gap-4">
-          <h2 className="badge badge-lg badge-accent">Ergebnis</h2>
+          <h2 className="badge badge-lg badge-accent">Ergebnis Top 3</h2>
         </div>
         <table className="table w-full mt-6">
           <thead>
@@ -86,7 +91,7 @@ export default function PreviousRace() {
           </thead>
           <tbody>
             {preveiousRaceResults?.slice(0, 3).map((result) => (
-              <tr key={result.driver.id}>
+              <tr key={result.driver.id} className="hover cursor-default">
                 <td>{result.position}</td>
                 <td>
                   <img

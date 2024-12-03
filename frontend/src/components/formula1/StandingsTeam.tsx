@@ -1,16 +1,15 @@
 import { Loader } from "lucide-react";
-/* import { useNavigate } from "react-router"; */
 import RefreshButton from "../RefreshButton";
-import { useFormula1Store } from "@/stores/useFormula1Store";
+import { useFormula1StandingsTeamStore } from "@/stores/formula1/useFormula1StandingsTeamStore";
+import { useEffect } from "react";
 
 export default function StandingsTeam() {
   const { f1StandingsTeam, isF1StandingsTeamLoading, getF1StandingsTeam } =
-    useFormula1Store();
-  /*   const navigate = useNavigate(); */
+    useFormula1StandingsTeamStore();
 
-  /*   const handleRowClick = (matchID: number) => {
-    navigate(`/football/teams/${matchID}`);
-  }; */
+  useEffect(() => {
+    getF1StandingsTeam();
+  }, [getF1StandingsTeam]);
 
   if (isF1StandingsTeamLoading) {
     return (
@@ -39,7 +38,7 @@ export default function StandingsTeam() {
         </thead>
         <tbody>
           {f1StandingsTeam?.map((team) => (
-            <tr key={team.team.id} className="hover cursor-pointer">
+            <tr key={team.team.id} className="hover cursor-default">
               <td className="text-accent">{team.position}</td>
               <td className="flex gap-4 items-center">
                 <img

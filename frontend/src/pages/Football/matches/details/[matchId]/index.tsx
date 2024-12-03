@@ -1,6 +1,6 @@
 import BackButton from "@/components/BackButton";
 import MatchDetails from "@/components/football/MatchDetails";
-import { useFootballStore } from "@/stores/useFootballStore";
+import { useFootballMatchStore } from "@/stores/football/useFootballMatchStore";
 import { Loader } from "lucide-react";
 import { useEffect } from "react";
 import { useParams } from "react-router";
@@ -11,7 +11,7 @@ export default function MatchDetailsPage() {
     footballChosenMatch,
     getFootballChosenMatch,
     isFootballChosenMatchLoading,
-  } = useFootballStore();
+  } = useFootballMatchStore();
 
   useEffect(() => {
     getFootballChosenMatch(matchId);
