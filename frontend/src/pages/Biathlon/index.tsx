@@ -1,6 +1,6 @@
 import BackButton from "@/components/BackButton";
 
-export default function FormulaOnePage() {
+export default function BiathlonPage() {
   return (
     <div className="flex flex-col gap-4 justify-center">
       <BackButton />

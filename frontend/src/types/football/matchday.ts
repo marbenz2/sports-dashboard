@@ -1,4 +1,4 @@
-export type Team = {
+export type FootballTeam = {
   teamId: number;
   teamName: string;
   shortName: string;
@@ -6,13 +6,13 @@ export type Team = {
   teamGroupName: string | null;
 };
 
-type Group = {
+export type FootballGroup = {
   groupName: string;
   groupOrderID: number;
   groupID: number;
 };
 
-export type Goal = {
+export type FootballGoal = {
   goalID: number;
   scoreTeam1: number;
   scoreTeam2: number;
@@ -25,7 +25,7 @@ export type Goal = {
   comment: string | null;
 };
 
-type MatchResult = {
+export type FootballMatchResult = {
   resultID: number;
   resultName: string;
   pointsTeam1: number;
@@ -35,7 +35,7 @@ type MatchResult = {
   resultDescription: string;
 };
 
-export type MatchType = {
+export type FootballMatchType = {
   matchID: number;
   matchDateTime: string;
   timeZoneID: string;
@@ -44,15 +44,15 @@ export type MatchType = {
   leagueSeason: number;
   leagueShortcut: string;
   matchDateTimeUTC: string;
-  group: Group;
-  team1: Team;
-  team2: Team;
+  group: FootballGroup;
+  team1: FootballTeam;
+  team2: FootballTeam;
   lastUpdateDateTime: string;
   matchIsFinished: boolean;
-  matchResults: MatchResult[];
-  goals: Goal[];
+  matchResults: FootballMatchResult[];
+  goals: FootballGoal[];
   location: string | null;
   numberOfViewers: number | null;
 };
 
-export type MatchdayType = MatchType[];
+export type FootballMatchdayType = FootballMatchType[];

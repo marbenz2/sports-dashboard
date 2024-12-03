@@ -6,9 +6,11 @@ import path from "path";
 
 import { connectDB } from "./lib/db.js";
 
-import standingsRoutes from "./routes/standings.route.js";
-import matchdayRoutes from "./routes/matchday.route.js";
-import matchesRoutes from "./routes/matches.route.js";
+import footballStandingsRoutes from "./routes/football/standings.route.js";
+import footballMatchdayRoutes from "./routes/football/matchday.route.js";
+import footballMatchesRoutes from "./routes/football/matches.route.js";
+import formulaStandingsRoutes from "./routes/formula1/standings.route.js";
+import formulaRacesRoutes from "./routes/formula1/races.route.js";
 
 dotenv.config();
 
@@ -25,9 +27,11 @@ app.use(
   })
 );
 
-app.use("/api/standings", standingsRoutes);
-app.use("/api/matchday", matchdayRoutes);
-app.use("/api/matches", matchesRoutes);
+app.use("/api/football/standings", footballStandingsRoutes);
+app.use("/api/football/matchday", footballMatchdayRoutes);
+app.use("/api/football/matches", footballMatchesRoutes);
+app.use("/api/formula1/standings", formulaStandingsRoutes);
+app.use("/api/formula1/races", formulaRacesRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
