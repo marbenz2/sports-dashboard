@@ -1,21 +1,16 @@
 import { useFootballStore } from "@/stores/useFootballStore";
 import { Loader } from "lucide-react";
 import { useNavigate } from "react-router";
-import RefreshButton from "../RefreshButton";
 
 export default function Standings() {
-  const {
-    footballStandings,
-    isFootballStandingsLoading,
-    getFootballStandings,
-  } = useFootballStore();
+  const { standings, isStandingsLoading } = useFootballStore();
   const navigate = useNavigate();
 
   const handleRowClick = (matchID: number) => {
     navigate(`/football/teams/${matchID}`);
   };
 
-  if (isFootballStandingsLoading) {
+  if (isStandingsLoading) {
     return (
       <div className="flex items-center justify-center w-full h-full">
         <Loader className="size-6 animate-spin" />
@@ -25,13 +20,7 @@ export default function Standings() {
 
   return (
     <div className="overflow-x-auto card w-full p-6 shadow-xl">
-      <div className="flex w-full items-center justify-between gap-4">
-        <h2 className="badge badge-lg badge-accent">Tabelle</h2>
-        <RefreshButton
-          route="/football/standings/update"
-          refresh={getFootballStandings}
-        />
-      </div>
+      <h2 className="badge badge-lg badge-accent">Tabelle</h2>
       <table className="table w-full">
         <thead>
           <tr>
@@ -47,7 +36,7 @@ export default function Standings() {
           </tr>
         </thead>
         <tbody>
-          {footballStandings?.map((team, index) => (
+          {standings?.map((team, index) => (
             <tr
               key={team.teamInfoId}
               className="hover cursor-pointer"

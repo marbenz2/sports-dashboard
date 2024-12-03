@@ -5,7 +5,6 @@ export default {
     extend: {
       animation: {
         "spin-back": "spin .2s linear 1 reverse",
-        "spin-once": "spin .5s linear .5",
       },
     },
   },
