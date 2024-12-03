@@ -1,22 +1,26 @@
-import { useFootballStore } from "@/stores/useFootballStore";
+import { useFootballMatchdayStore } from "@/stores/football/useFootballMatchdayStore";
 import { Loader } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import RefreshButton from "../RefreshButton";
 
-export default function Matchday() {
+export default function CurrentMatchday() {
   const {
     footballCurrentMatchday,
-    isFootballCurrentMatchdayLoading,
-    getFootballCurrentMatchday,
-  } = useFootballStore();
+    isFootballMatchdayLoading,
+    getFootballMatchday,
+  } = useFootballMatchdayStore();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getFootballMatchday();
+  }, [getFootballMatchday]);
 
   const handleRowClick = (matchID: number) => {
     navigate(`/football/matches/details/${matchID}`);
   };
 
-  if (isFootballCurrentMatchdayLoading) {
+  if (isFootballMatchdayLoading) {
     return (
       <div className="flex items-center justify-center w-full h-full">
         <Loader className="size-6 animate-spin" />
@@ -48,14 +52,16 @@ export default function Matchday() {
   return (
     <div className="overflow-x-auto card w-full p-6 shadow-xl">
       <div className="flex w-full items-center justify-between gap-4">
-        <h2 className="badge badge-lg badge-accent">
-          Spieltag{" "}
-          {footballCurrentMatchday &&
-            footballCurrentMatchday[0].group.groupOrderID}
-        </h2>
+        <div className="flex gap-4">
+          <h2 className="badge badge-lg badge-accent">Dieser Spieltag</h2>
+          <h3 className="badge badge-lg badge-accent">
+            {footballCurrentMatchday &&
+              footballCurrentMatchday[0].group.groupOrderID}
+          </h3>
+        </div>
         <RefreshButton
           route="/football/matchday/update"
-          refresh={getFootballCurrentMatchday}
+          refresh={getFootballMatchday}
         />
       </div>
       <table className="table w-full">

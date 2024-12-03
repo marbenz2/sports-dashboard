@@ -15,11 +15,11 @@ export default function Homepage() {
           title={"Formel 1"}
           link={"/formula1"}
         />
-        <HomeCard
+        {/*         <HomeCard
           image={"/images/biathlon.svg"}
           title={"Biathlon"}
           link={"/biathlon"}
-        />
+        /> */}
       </div>
     </section>
   );

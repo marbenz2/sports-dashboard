@@ -1,19 +1,18 @@
-import { useFootballStore } from "@/stores/useFootballStore";
+import { useFootballStandingsStore } from "@/stores/football/useFootballStandingsStore";
 import { Loader } from "lucide-react";
-import { useNavigate } from "react-router";
 import RefreshButton from "../RefreshButton";
+import { useEffect } from "react";
 
 export default function Standings() {
   const {
     footballStandings,
     isFootballStandingsLoading,
     getFootballStandings,
-  } = useFootballStore();
-  const navigate = useNavigate();
+  } = useFootballStandingsStore();
 
-  const handleRowClick = (matchID: number) => {
-    navigate(`/football/teams/${matchID}`);
-  };
+  useEffect(() => {
+    getFootballStandings();
+  }, [getFootballStandings]);
 
   if (isFootballStandingsLoading) {
     return (
@@ -26,7 +25,9 @@ export default function Standings() {
   return (
     <div className="overflow-x-auto card w-full p-6 shadow-xl">
       <div className="flex w-full items-center justify-between gap-4">
-        <h2 className="badge badge-lg badge-accent">Tabelle</h2>
+        <div>
+          <h2 className="badge badge-lg badge-accent">Tabelle</h2>
+        </div>
         <RefreshButton
           route="/football/standings/update"
           refresh={getFootballStandings}
@@ -48,11 +49,7 @@ export default function Standings() {
         </thead>
         <tbody>
           {footballStandings?.map((team, index) => (
-            <tr
-              key={team.teamInfoId}
-              className="hover cursor-pointer"
-              onClick={() => handleRowClick(team.teamInfoId)}
-            >
+            <tr key={team.teamInfoId} className="hover cursor-default">
               <td className="text-accent">{index + 1}</td>
               <td className="flex gap-4 items-center">
                 <img

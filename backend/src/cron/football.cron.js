@@ -1,4 +1,4 @@
-import cron from "node-cron";
+/* import cron from "node-cron";
 import {
   updateStandingsInDB,
   updateCurrentMatchdayInDB,
@@ -46,3 +46,4 @@ cron.schedule("0 * * * *", async () => {
 });
 
 console.log("Scheduler is set up");
+ */

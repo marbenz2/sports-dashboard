@@ -1,19 +1,18 @@
 import { Loader } from "lucide-react";
-/* import { useNavigate } from "react-router"; */
 import RefreshButton from "../RefreshButton";
-import { useFormula1Store } from "@/stores/useFormula1Store";
+import { useFormula1StandingsDriverStore } from "@/stores/formula1/useFormula1StandingsDriverStore";
+import { useEffect } from "react";
 
 export default function StandingsDriver() {
   const {
     f1StandingsDriver,
     isF1StandingsDriverLoading,
     getF1StandingsDriver,
-  } = useFormula1Store();
-  /*   const navigate = useNavigate(); */
+  } = useFormula1StandingsDriverStore();
 
-  /*   const handleRowClick = (matchID: number) => {
-    navigate(`/football/teams/${matchID}`);
-  }; */
+  useEffect(() => {
+    getF1StandingsDriver();
+  }, [getF1StandingsDriver]);
 
   if (isF1StandingsDriverLoading) {
     return (
@@ -45,7 +44,7 @@ export default function StandingsDriver() {
         </thead>
         <tbody>
           {f1StandingsDriver?.map((driver) => (
-            <tr key={driver.driver.id} className="hover cursor-pointer">
+            <tr key={driver.driver.id} className="hover cursor-default">
               <td className="text-accent">{driver.position}</td>
               <td className="flex gap-4 items-center">
                 <img
@@ -61,9 +60,13 @@ export default function StandingsDriver() {
                 </div>
               </td>
               <td className="text-accent">{driver.wins}</td>
-              <td>{driver.points}</td>
-              <td className="font-semibold text-error">
-                {driver.behind ? driver.behind : "-"}
+              <td>{driver.points > 0 ? driver.points : "0"}</td>
+              <td
+                className={`font-semibold ${
+                  driver.behind > 0 ? "text-error" : ""
+                }`}
+              >
+                {driver.behind ? driver.behind : ""}
               </td>
             </tr>
           ))}

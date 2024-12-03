@@ -58,9 +58,12 @@ const footballMatchSchema = new mongoose.Schema({
   numberOfViewers: { type: Number, default: null },
 });
 
-const FootballMatchday = mongoose.model(
+export const FootballMatchday = mongoose.model(
   "CurrentFootballMatch",
   footballMatchSchema
 );
 
-export default FootballMatchday;
+export const FootballNextMatchday = mongoose.model(
+  "FootballNextMatchday",
+  footballMatchSchema
+);
