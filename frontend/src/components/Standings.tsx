@@ -1,20 +1,16 @@
-import { useFootballStandingsStore } from "@/stores/football/useFootballStandingsStore";
+import { useFootballStore } from "@/stores/useFootballStore";
 import { Loader } from "lucide-react";
-import RefreshButton from "../RefreshButton";
-import { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 export default function Standings() {
-  const {
-    footballStandings,
-    isFootballStandingsLoading,
-    getFootballStandings,
-  } = useFootballStandingsStore();
+  const { standings, isStandingsLoading } = useFootballStore();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    getFootballStandings();
-  }, [getFootballStandings]);
+  const handleRowClick = (matchID: number) => {
+    navigate(`/football/teams/${matchID}`);
+  };
 
-  if (isFootballStandingsLoading) {
+  if (isStandingsLoading) {
     return (
       <div className="flex items-center justify-center w-full h-full">
         <Loader className="size-6 animate-spin" />
@@ -24,15 +20,7 @@ export default function Standings() {
 
   return (
     <div className="overflow-x-auto card w-full p-6 shadow-xl">
-      <div className="flex w-full items-center justify-between gap-4">
-        <div>
-          <h2 className="badge badge-lg badge-accent">Tabelle</h2>
-        </div>
-        <RefreshButton
-          route="/football/standings/update"
-          refresh={getFootballStandings}
-        />
-      </div>
+      <h2 className="badge badge-lg badge-accent">Tabelle</h2>
       <table className="table w-full">
         <thead>
           <tr>
@@ -48,8 +36,12 @@ export default function Standings() {
           </tr>
         </thead>
         <tbody>
-          {footballStandings?.map((team, index) => (
-            <tr key={team.teamInfoId} className="hover cursor-default">
+          {standings?.map((team, index) => (
+            <tr
+              key={team.teamInfoId}
+              className="hover cursor-pointer"
+              onClick={() => handleRowClick(team.teamInfoId)}
+            >
               <td className="text-accent">{index + 1}</td>
               <td className="flex gap-4 items-center">
                 <img

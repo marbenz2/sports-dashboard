@@ -1,17 +1,7 @@
-import {
-  FootballGoal,
-  FootballMatchType,
-  FootballTeam,
-} from "@/types/football/matchday";
+import { Goal, MatchType, Team } from "@/types/football/matchday";
 import { useEffect, useState } from "react";
 
-function TeamDetails({
-  team,
-  goals,
-}: {
-  team: FootballTeam;
-  goals: FootballGoal[];
-}) {
+function TeamDetails({ team, goals }: { team: Team; goals: Goal[] }) {
   return (
     <div className="flex flex-col gap-6 w-full items-center">
       <div className="flex flex-col items-center">
@@ -34,36 +24,18 @@ function TeamDetails({
   );
 }
 
-export default function MatchDetails({
-  match,
-}: {
-  match: FootballMatchType | null;
-}) {
-  const [goalsTeam1, setGoalsTeam1] = useState<FootballGoal[]>([]);
-  const [goalsTeam2, setGoalsTeam2] = useState<FootballGoal[]>([]);
+export default function MatchDetails({ match }: { match: MatchType | null }) {
+  const [goalsTeam1, setGoalsTeam1] = useState<Goal[]>([]);
+  const [goalsTeam2, setGoalsTeam2] = useState<Goal[]>([]);
 
   useEffect(() => {
     if (match) {
-      const sortedGoals = [...match.goals].sort(
-        (a, b) => a.matchMinute - b.matchMinute
+      setGoalsTeam1(
+        match.goals.filter((goal) => goal.scoreTeam1 > goal.scoreTeam2)
       );
-
-      const team1Goals = sortedGoals.filter((goal, index) => {
-        const previousGoal = sortedGoals[index - 1];
-        const previousScoreTeam1 = previousGoal?.scoreTeam1 ?? 0;
-
-        return goal.scoreTeam1 > previousScoreTeam1;
-      });
-
-      const team2Goals = sortedGoals.filter((goal, index) => {
-        const previousGoal = sortedGoals[index - 1];
-        const previousScoreTeam2 = previousGoal?.scoreTeam2 ?? 0;
-
-        return goal.scoreTeam2 > previousScoreTeam2;
-      });
-
-      setGoalsTeam1(team1Goals);
-      setGoalsTeam2(team2Goals);
+      setGoalsTeam2(
+        match.goals.filter((goal) => goal.scoreTeam2 > goal.scoreTeam1)
+      );
     }
   }, [match]);
 
