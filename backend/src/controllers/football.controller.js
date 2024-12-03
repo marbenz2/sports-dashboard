@@ -1,6 +1,9 @@
 import axios from "axios";
 import FootballStandings from "../models/football/standings.model.js";
-import FootballMatchday from "../models/football/matchday.model.js";
+import {
+  FootballMatchday,
+  FootballNextMatchday,
+} from "../models/football/matchday.model.js";
 
 export const getStandingsFromDB = async (req, res) => {
   try {
@@ -37,13 +40,20 @@ export const updateStandingsHandler = async (req, res) => {
   }
 };
 
-export const getCurrentMatchdayFromDB = async (req, res) => {
+export const getMatchdayFromDB = async (req, res) => {
   try {
-    const nextMatches = await FootballMatchday.find();
-    res.status(200).json(nextMatches);
+    const currentMatches = await FootballMatchday.find();
+    const nextMatches = await FootballNextMatchday.find();
+    res.status(200).json({
+      currentMatches,
+      nextMatches,
+    });
   } catch (error) {
-    console.error("Error in getNextMatchesFromDB: ", error.message);
-    res.status(500).json({ message: error.message });
+    console.error("Error in getMatchdayFromDB: ", error.message);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
@@ -54,15 +64,32 @@ export const updateCurrentMatchdayInDB = async () => {
     );
     await FootballMatchday.deleteMany();
     await FootballMatchday.insertMany(apiData.data);
-    console.log("Matchday Data updated successfully");
+    console.log("CurrentMatchday Data updated successfully");
   } catch (error) {
     console.error("Error in updateCurrentMatchdayInDB: ", error.message);
   }
 };
 
-export const updateCurrentMatchdayHandler = async (req, res) => {
+export const updateNextMatchdayInDB = async () => {
+  const currentYear = new Date().getFullYear();
+  try {
+    const currentMatches = await FootballMatchday.find();
+    const nextGameDay = currentMatches[0].group.groupOrderID + 1;
+    const apiData = await axios.get(
+      `${process.env.FOOTBALL_API_URI}/getmatchdata/bl1/${currentYear}/${nextGameDay}`
+    );
+    await FootballNextMatchday.deleteMany();
+    await FootballNextMatchday.insertMany(apiData.data);
+    console.log("Next Matchday Data updated successfully");
+  } catch (error) {
+    console.error("Error in updateNextMatchdayInDB: ", error.message);
+  }
+};
+
+export const updateMatchdayHandler = async (req, res) => {
   try {
     await updateCurrentMatchdayInDB();
+    await updateNextMatchdayInDB();
     res
       .status(200)
       .json({ message: "FootballMatchday Data updated successfully" });

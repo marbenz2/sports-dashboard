@@ -55,4 +55,11 @@ export type FootballMatchType = {
   numberOfViewers: number | null;
 };
 
-export type FootballMatchdayType = FootballMatchType[];
+export type FootballCurrentMatchdayType = FootballMatchType[];
+
+export type FootballNextMatchdayType = FootballMatchType[];
+
+export type FootballCominedMatchdayType = {
+  currentMatches: FootballCurrentMatchdayType;
+  nextMatches: FootballNextMatchdayType;
+};

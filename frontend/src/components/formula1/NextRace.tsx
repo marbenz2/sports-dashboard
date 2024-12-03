@@ -1,9 +1,15 @@
-import { useFormula1Store } from "@/stores/useFormula1Store";
+import { useFormula1RaceNextStore } from "@/stores/formula1/useFormula1RaceNextStore";
 import { Loader } from "lucide-react";
 import RefreshButton from "../RefreshButton";
+import { useEffect } from "react";
 
 export default function NextRace() {
-  const { f1NextRace, isF1NextRaceLoading, getF1NextRace } = useFormula1Store();
+  const { f1NextRace, isF1NextRaceLoading, getF1NextRace } =
+    useFormula1RaceNextStore();
+
+  useEffect(() => {
+    getF1NextRace();
+  }, [getF1NextRace]);
 
   if (isF1NextRaceLoading) {
     return (
@@ -36,7 +42,7 @@ export default function NextRace() {
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr className="hover cursor-default">
             <td>
               {new Date(nextRace?.date ?? "").toLocaleDateString("de-DE", {
                 weekday: "long",
